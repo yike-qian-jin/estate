@@ -1,0 +1,35 @@
+Get http://localhost:3000/api/user/test
+
+###
+POST http://localhost:3000/api/auth/signup
+Content-Type: application/json
+
+
+{
+    "username" : "ahmed" ,
+    "email" : "ahmed@gmail.com",
+    "password" : "123456"
+} 
+
+###
+POST http://localhost:3000/api/auth/signin
+Content-Type: application/json
+
+
+{
+    "email" : "ahmed@gmail.com",
+    "password" : "123456"
+} 
+
+
+###
+POST http://localhost:3000/api/user/update/6586fea5d4ad79398071c8a2
+Content-Type: application/json
+
+
+{
+    "username" : "ahmed1",
+    "password" : "1234567"
+} 
+
+
