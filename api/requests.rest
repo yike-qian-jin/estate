@@ -38,3 +38,25 @@ Content-Type: application/json
 DELETE http://localhost:3000/api/user/delete/65870c2da0681fcaebee8c3d
 
 
+### 
+POST http://localhost:3000/api/listing/create
+Content-Type: application/json
+
+
+{
+    "name" : "test",
+    "description": "test",
+    "address": "test",
+    "regularPrice": 200,
+    "discountedPrice": 100,
+    "bathrooms" : 3,
+    "bedrooms": 5,
+    "furnished": true,
+    "parking": true,
+    "type": "rent",
+    "offer": true,
+    "imageUrls": ["test" , "test1"],
+    "userRef": "test"
+} 
+
+
