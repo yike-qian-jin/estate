@@ -35,7 +35,7 @@ function Header() {
           <Link to="/profile">
             {currentUser ? (
               <img
-                className="w-8 h-8 rounded-full object-cover"
+                className="w-8 h-8 rounded-full object-contain"
                 src={currentUser.avatar}
                 alt=""
               />

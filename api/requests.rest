@@ -59,4 +59,7 @@ Content-Type: application/json
     "userRef": "test"
 } 
 
+### Get listings
+GET http://localhost:3000/api/user/listings/65885b165942fd1410db3268
+
 

@@ -329,7 +329,7 @@ function CreateListing() {
                 <img
                   src={url}
                   alt=""
-                  className="w-20 h-20 object-cover rounded-lg"
+                  className="w-20 h-20 object-contain rounded-lg"
                 />
                 <button
                   onClick={() => handleDeleteImage(index)}
