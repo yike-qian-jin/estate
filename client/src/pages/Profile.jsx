@@ -32,6 +32,7 @@ function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -134,7 +135,25 @@ function Profile() {
       }
       setUserListings(data);
     } catch (error) {
-      setShowListingsError(error);
+      setShowListingsError(error.message);
+    }
+  };
+
+  const handleDeleteListing = async (listingId) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -256,8 +275,13 @@ function Profile() {
                 <p>{listing.name}</p>
               </Link>
               <div className="flex flex-col gap-2">
-                <AiFillDelete className="text-xl cursor-pointer transform hover:scale-125 transition-transform duration-500 " />
-                <AiFillEdit className="text-xl cursor-pointer transform hover:scale-125 transition-transform duration-500" />
+                <AiFillDelete
+                  onClick={() => handleDeleteListing(listing._id)}
+                  className="text-xl cursor-pointer transform hover:scale-125 transition-transform duration-500 "
+                />
+                <Link to={`/update-listing/${listing._id}`}>
+                  <AiFillEdit className="text-xl cursor-pointer transform hover:scale-125 transition-transform duration-500" />
+                </Link>
               </div>
             </div>
           ))}

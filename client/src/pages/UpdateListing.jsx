@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { app } from "../config/firebase";
 import {
   getDownloadURL,
@@ -7,11 +7,12 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-function CreateListing() {
+function UpdateListing() {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const params = useParams();
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
@@ -31,6 +32,21 @@ function CreateListing() {
   const [uploading, setUploading] = useState(false);
   const [formError, setFormError] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchListing = async () => {
+      const listingId = params.listingId;
+      const res = await fetch(`/api/listing/get/${listingId}`);
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setFormData(data);
+    };
+
+    fetchListing();
+  }, [params.listingId]);
 
   const handleFilesSubmit = () => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -118,7 +134,7 @@ function CreateListing() {
         return setFormError("Discount price must be lower than regular price");
       setFormLoading(true);
       setFormError(false);
-      const res = await fetch("/api/listing/create", {
+      const res = await fetch(`/api/listing/update/${params.listingId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -143,7 +159,7 @@ function CreateListing() {
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
-        Create Listing
+        Update Listing
       </h1>
       <form
         onSubmit={handleFormSubmit}
@@ -344,7 +360,7 @@ function CreateListing() {
             disabled={formLoading || uploading}
             className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
           >
-            {formLoading ? "Creating..." : "Create listing"}
+            {formLoading ? "Updating..." : "Update listing"}
           </button>
           {formError && <p className="text-red-700">{formError}</p>}
         </div>
@@ -353,4 +369,4 @@ function CreateListing() {
   );
 }
 
-export default CreateListing;
+export default UpdateListing;

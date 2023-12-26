@@ -56,10 +56,24 @@ Content-Type: application/json
     "type": "rent",
     "offer": true,
     "imageUrls": ["test" , "test1"],
-    "userRef": "test"
+    "userRef": "65885b165942fd1410db3268"
 } 
 
 ### Get listings
 GET http://localhost:3000/api/user/listings/65885b165942fd1410db3268
 
 
+### delete listing
+DELETE http://localhost:3000/api/listing/delete/658b1438a1775294c54bae86
+
+
+### update listing
+POST http://localhost:3000/api/listing/update/658b19a4467e5a7e89dd887d
+Content-Type: application/json
+
+{
+    "name": "test"
+}
+
+### Get listing
+GET http://localhost:3000/api/listing/get/658b19a4467e5a7e89dd887d
