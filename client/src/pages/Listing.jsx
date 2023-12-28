@@ -134,7 +134,7 @@ function Listing() {
                 {listing.furnished ? "Furnished" : "Not Furnished"}
               </li>
             </ul>
-            {currentUser && currentUser._id && !contact && (
+            {currentUser && listing.userRef !== currentUser._id && !contact && (
               <button
                 onClick={() => setContact(true)}
                 className="bg-slate-700 text-white rounded-lg uppercase p-3 hover:opacity-95"
