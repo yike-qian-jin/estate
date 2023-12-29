@@ -79,4 +79,4 @@ Content-Type: application/json
 GET http://localhost:3000/api/listing/get/658b19a4467e5a7e89dd887d
 
 ### search for listings
-GET http://localhost:3000/api/listing/get?searchTerm=orla
+GET http://localhost:3000/api/listing/get?searchTerm=&type=all
