@@ -15,6 +15,7 @@ function Search() {
     sort: "created_at",
     order: "desc",
   });
+  const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -47,9 +48,15 @@ function Search() {
 
     const fetchListings = async () => {
       setLoading(true);
+      setShowMore(false);
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
+      if (data.length >= 9) {
+        setShowMore(true);
+      } else {
+        setShowMore(false);
+      }
       setListings(data);
       setLoading(false);
     };
@@ -101,6 +108,20 @@ function Search() {
     urlParams.set("order", sidebarParams.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
+  };
+
+  const handleShowMore = async () => {
+    const numberOfListings = listings.length;
+    const startIndex = numberOfListings;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/listing/get?${searchQuery}`);
+    const data = await res.json();
+    if (data.length < 9) {
+      setShowMore(false);
+    }
+    setListings([...listings, ...data]);
   };
 
   return (
@@ -229,6 +250,14 @@ function Search() {
               <ListingItem key={listing._id} listing={listing} />
             ))}
         </div>
+        {showMore && (
+          <button
+            onClick={handleShowMore}
+            className="text-green-700 hover:underline py-4 text-center w-full"
+          >
+            Show More
+          </button>
+        )}
       </div>
     </div>
   );
